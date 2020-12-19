@@ -1,0 +1,28 @@
+---
+# must be called with parameter 'user_name'
+# for sudo rights call with parameter sudo_rights=true
+#- hosts: "all"
+#  become: true
+#  roles:
+#    - user_management
+#
+
+#- hosts: "{{ user_name }}"
+#  become: true
+#  tasks:
+#    - include_role:
+#        name: user_management
+#        tasks_from: create_user
+
+#- hosts: "{{ user_name }}"
+#- hosts: "all"
+#  become: true
+#  tasks:
+#    - name: Copy private key
+#      copy:
+#        src: /Users/nwm/IdeaProjects/CSOBHatcheryUSY/ansible/users/{{ user_name }}_id_rsa
+#        dest: /home/{{ user_name }}/.ssh/id_rsa
+#        owner: "{{ user_name }}"
+#        group: "{{ user_name }}"
+#        mode: 0400
+

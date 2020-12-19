@@ -1,0 +1,43 @@
+---
+- name: Adding group {{ user_name }}
+  group:
+    name: "{{ user_name }}"
+
+- name: Adding user {{ user_name }}
+  user:
+    name: "{{ user_name }}"
+    group: "{{ user_name }}"
+    create_home: yes
+
+- name: Check if generated autorized key exists
+  stat:
+    path: '{{ keys_directory }}/{{ user_name }}_id_rsa.pub'
+  delegate_to: localhost
+  register: generated
+
+- name: Adding generated autorized keys
+  authorized_key:
+    user: "{{ user_name }}"
+    state: present
+    key: "{{ lookup('file', '{{ keys_directory }}/{{ user_name }}_id_rsa.pub') }}"
+  when: generated.stat.exists
+
+- name: Check if own autorized key exists
+  stat:
+    path: '{{ keys_directory }}/{{ user_name }}'
+  delegate_to: localhost
+  register: own
+
+- name: Adding own autorized keys
+  authorized_key:
+    user: "{{ user_name }}"
+    state: present
+    key: "{{ lookup('file', '{{ keys_directory }}/{{ user_name }}') }}"
+  when: own.stat.exists
+
+- name: Add {{ user_name }} to /etc/sudoers.d/
+  lineinfile:
+    path: /etc/sudoers.d/{{ user_name }}
+    line: "{{ user_name }} ALL=(ALL) NOPASSWD: ALL"
+    create: yes
+  when: sudo_rights|bool

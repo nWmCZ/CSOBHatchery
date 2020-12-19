@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Install dependencies
+    yum:
+      name:
+      - java-1.8.0-openjdk.x86_64
+      - mc
+      state: present

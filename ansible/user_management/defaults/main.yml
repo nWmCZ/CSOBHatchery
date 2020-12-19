@@ -1,0 +1,3 @@
+---
+sudo_rights: false
+keys_directory: ~/IdeaProjects/CSOBHatcheryUSY/ansible/users
