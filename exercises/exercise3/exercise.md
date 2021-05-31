@@ -1,4 +1,5 @@
 # Exercise 3 - ActiveMQ HA
+See HA picture for draw.io
 
 ## copy mysql connector package
 ```
